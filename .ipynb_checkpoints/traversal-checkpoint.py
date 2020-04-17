@@ -66,23 +66,3 @@ class RoomGraph:
                         new_path = list(path)
                         new_path.append(next_vert)
                         qq.enqueue(new_path)
-    
-    def get_path(self):
-        order = self.order_rooms
-        graph = self.vertices
-        traversal_path =[]
-        i = 0
-        while(i < (len(order) - 1)):
-            if(order[i+1] in graph[order[i]].keys()):
-                traversal_path.append(graph[order[i]][order[i+1]])
-            else:
-                path = self.search(order[i],order[i+1])
-                j=0
-                while(j < (len(path)-1)):
-                    # if(path[j+1] in graph[path[j]].keys()):
-                    traversal_path.append(graph[path[j]][path[j+1]])
-                    # else:
-                    #     traversal_path.append('?')
-                    j += 1
-            i += 1
-        return traversal_path
