@@ -2,7 +2,7 @@ from room import Room
 from player import Player
 from world import World
 from util import Queue,Stack
-from traversal import RoomGraph
+from traversal import *
 
 import random
 from ast import literal_eval
@@ -29,12 +29,21 @@ player = Player(world.starting_room)
 graph,order = graph_r.generate_room_graph(player)
 # order = get_path(graph)
 # print(order)
-
 traversal_path =[]
-
-traversal_path = graph_r.get_path()
-
-
+i = 0
+while(i < (len(order) - 1)):
+    if(order[i+1] in graph[order[i]].keys()):
+        traversal_path.append(graph[order[i]][order[i+1]])
+    else:
+        path = graph_r.search(order[i],order[i+1])
+        j=0
+        while(j < (len(path)-1)):
+            if(path[j+1] in graph[path[j]].keys()):
+                traversal_path.append(graph[path[j]][path[j+1]])
+            else:
+                traversal_path.append('?')
+            j += 1
+    i += 1
     
 
 # Fill this out with directions to walk
@@ -50,6 +59,30 @@ visited_rooms = set()
 player.current_room = world.starting_room
 visited_rooms.add(player.current_room)
 
+
+# # Create a Stack and push starting vertex
+# ss = Stack()
+# ss.push([player.current_room])
+
+#     # While Queue is not empty:
+# while ss.size() > 0:
+#     # pop the last added vertex
+#     path = ss.pop()
+#     # if not visited
+#     if path[-1] not in visited_rooms:
+#         # DO THE THING!!!!!!!
+#         # print(path[-1].id)
+#         # mark as visited
+        
+#         visited_rooms.add(path[-1])
+#             # push all neightbors
+#         for direction in path[-1].get_exits():
+#             new_path = list(path)
+#             new_path.append(path[-1].get_room_in_direction(direction))
+#             traversal_path.append(direction)
+#             ss.push(new_path)
+
+# print(traversal_path)
 for move in traversal_path:
     player.travel(move)
     visited_rooms.add(player.current_room)
